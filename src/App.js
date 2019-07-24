@@ -37,6 +37,13 @@ function App() {
         } );
     }
 
+    let weatherElement;
+    if ( weather === undefined ) {
+        weatherElement = ( <Error message={ weather.message } /> );
+    } else {
+        weatherElement = ( <Weather weather={ weather } /> ) ;
+    }
+
     const getWeatherData = async () => {
         let apiUrl =  `https://api.openweathermap.org/data/2.5/weather?q=${ query.city },${ query.country }&appid=447a0a328f23d03a2f0f5df3918cf3a0`;
 
@@ -55,7 +62,7 @@ function App() {
                 { error ? <Error message="*All field are required" /> : null }
             </Col>
             <Col xs={12} sm={6}>
-                { weather ? <Weather weather={ weather } /> : null }
+                { weatherElement }
             </Col>
         </Row>
     </Container>
