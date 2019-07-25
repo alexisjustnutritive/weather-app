@@ -14,7 +14,7 @@ function App() {
         }
     );
     const [ error, setError ] = useState( false );
-    const [weather, setWeather] = useState();
+    const [weather, setWeather] = useState( {} );
     
     useEffect( () => {
         if ( !error && query.city !== '' ) {
@@ -22,39 +22,37 @@ function App() {
         }
     }, [ query ] );
 
-    const getWeather = weather => {
-        console.log( weather );
-        
-        if ( weather.city === '' || weather.country === '' ) {
+    const getWeather = data => {
+        if ( data.city === '' || data.country === '' ) {
             setError( true );
         } else {
             setError( false );
         }
 
         setQuery( {
-            city: weather.city,
-            country: weather.country
+            city: data.city,
+            country: data.country
         } );
     }
 
     let weatherElement;
-    if ( weather === undefined ) {
-        weatherElement = ( <Error message={ weather.message } /> );
-    } else {
-        weatherElement = ( <Weather weather={ weather } /> ) ;
-    }
+    if ( Object.entries( weather ).length > 0 ) {
+        if ( weather.cod === '404' ) {
+            weatherElement = ( <Error message={ weather.message } /> );
+        } else {
+            weatherElement = ( <Weather weather={ weather } /> ) ;
+        }
+    } 
 
     const getWeatherData = async () => {
-        let apiUrl =  `https://api.openweathermap.org/data/2.5/weather?q=${ query.city },${ query.country }&appid=447a0a328f23d03a2f0f5df3918cf3a0`;
-
+        let apiUrl =  `https://api.openweathermap.org/data/2.5/weather?q=${ query.city },${ query.country }&appid=447a0a328f23d03a2f0f5df3918cf3a0&units=metric`;
         let res = await fetch( apiUrl );
         let data = await res.json();
-        console.log( data );
         setWeather( data );
     }
     
   return (
-    <Container className="bg-secondary">
+    <Container className="bg-secondary p-0">
         <Header title={ 'Weather app' } />
         <Row className="p-4">
             <Col xs={12} sm={6}>
