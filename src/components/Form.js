@@ -1,60 +1,67 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import AutoCompleteResult from './AutoCompleteResult';
+import citiesJson from '../../node_modules/cities.json/cities.json';
 
-const Form = ( { getWeather } ) => {
+const Form = ( { setQueryWeather } ) => {
+    // states
+    const [ selectedCity, setSelectedCity ] = useState( {} );
+    const [ inputValue, setInputValue ] = useState( '' );
+    const [ cities, setCities ] = useState( [] );
+    const [disable, setDisable] = useState( true );
 
-    const [ form, setForm ] = useState( {
-        city: '',
-        country: ''
-    } );
+    // useEffects
+    useEffect(() => {
+        if ( Object.entries( selectedCity ).length > 0 ) {
+            let text = selectedCity.city + ' ,' + selectedCity.country;
+            setInputValue( text );
+            setDisable( false );
+            setCities( [] );
+        }
+    }, [ selectedCity ]);
+
+    // functions
+    const onChange = e => {
+        let value = e.target.value;
+        setInputValue( value );
+        setDisable( true );
+
+        if ( value.length >= 3 ) {
+            let citiesSearchResult = citiesJson.filter( city => {
+                let cityName = city.name.toLowerCase();
+                return cityName.indexOf( value.toLowerCase() ) !== -1; 
+            });
+            citiesSearchResult = citiesSearchResult.slice( 0, 10 );
+            setCities( citiesSearchResult );
+        } else {
+            setCities( [] );
+        }
+    }
 
     const onSubmit = e => {
         e.preventDefault();
-        getWeather( form );
-    }
-
-    const onChange = e => {
-        setForm( {
-            ...form,
-            [e.target.name]: e.target.value
-        } );
+        setQueryWeather( selectedCity );
     }
 
     return (
-        <form onSubmit={ onSubmit } className="text-white">
-            <div className="form-group">
-                <label htmlFor="city-input">City Name</label>
+        <form onSubmit={ onSubmit } className="text-white d-flex justify-content-start align-items-end">
+            <div style={{ position: 'relative' }}>
+                <label htmlFor="city-input">Type to search...</label>
                 <input 
                     type="text" 
                     className="form-control" 
                     id="city-input" 
-                    placeholder="enter the city name..."
+                    placeholder="enter the city name..."                    
                     name="city"
+                    autoComplete="off"
+                    value={ inputValue }
                     onChange={ onChange }
                 />
+                <AutoCompleteResult cities={ cities } setSelectedCity={ setSelectedCity } />
             </div>
-            <div className="form-group">
-                <label htmlFor="country-input">Country</label>
-                <select 
-                    className="form-control" 
-                    id="country-input"
-                    name="country"
-                    onChange={ onChange }
-                >
-                    <option value="">--Select a country--</option>
-                    <option value="us">United State of America</option>
-                    <option value="ar">Argentina</option>
-                    <option value="mx">Mexico</option>
-                    <option value="co">Colombia</option>
-                    <option value="gt">Guatemala</option>
-                    <option value="cu">Cuba</option>
-                </select>
-            </div>
-            <div className="form-group">
-                <input type="submit" value="Search" className="btn btn-info" />
-            </div>
-            <h6> { form.city } </h6>
+            <input type="submit" value="Search" className="btn btn-info mx-2" disabled={ disable } />
+
         </form>
     )
 }
 
-export default Form
+export default Form;

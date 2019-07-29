@@ -1,0 +1,8 @@
+.list-group {
+    position: absolute;
+    top: 70px;
+}
+
+.list-group .list-group-item:hover {
+    background: gainsboro;
+}

@@ -3,7 +3,7 @@ import { Navbar } from 'react-bootstrap'
 
 const Header = ( { title } ) => {
     return (
-        <Navbar expand="lg" className="bg-info m-0">
+        <Navbar expand="lg" className="bg-info m-0 header-navbar">
             <Navbar.Brand href="#home" className="text-white w-100 text-center">{ title }</Navbar.Brand>
         </Navbar>
     )

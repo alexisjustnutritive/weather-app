@@ -7,33 +7,21 @@ import Weather from './components/Weather';
 
 function App() {
 
-    const [query, setQuery] = useState(
-        {
-            city: '',
-            country: '',
-        }
-    );
-    const [ error, setError ] = useState( false );
+    const [ queryWeather, setQueryWeather ] = useState( {} );
     const [weather, setWeather] = useState( {} );
-    
+
+    const getWeatherData = async () => {
+        let apiUrl =  `https://api.openweathermap.org/data/2.5/weather?q=${ queryWeather.city },${ queryWeather.country }&appid=447a0a328f23d03a2f0f5df3918cf3a0&units=metric`;
+        let res = await fetch( apiUrl );
+        let data = await res.json();
+        setWeather( data );
+    }
+
     useEffect( () => {
-        if ( !error && query.city !== '' ) {
+        if ( Object.entries( queryWeather ).length > 0 ) {
             getWeatherData();
         }
-    }, [ query ] );
-
-    const getWeather = data => {
-        if ( data.city === '' || data.country === '' ) {
-            setError( true );
-        } else {
-            setError( false );
-        }
-
-        setQuery( {
-            city: data.city,
-            country: data.country
-        } );
-    }
+    }, [ queryWeather ] );
 
     let weatherElement;
     if ( Object.entries( weather ).length > 0 ) {
@@ -44,20 +32,14 @@ function App() {
         }
     } 
 
-    const getWeatherData = async () => {
-        let apiUrl =  `https://api.openweathermap.org/data/2.5/weather?q=${ query.city },${ query.country }&appid=447a0a328f23d03a2f0f5df3918cf3a0&units=metric`;
-        let res = await fetch( apiUrl );
-        let data = await res.json();
-        setWeather( data );
-    }
-    
   return (
-    <Container className="bg-secondary p-0">
-        <Header title={ 'Weather app' } />
+    <Container className="bg-secondary container-page">
+        <div className="header-container">
+            <Header title={ 'Weather app' } />
+        </div>
         <Row className="p-4">
             <Col xs={12} sm={6}>
-                <Form getWeather={ getWeather }/>
-                { error ? <Error message="*All field are required" /> : null }
+                <Form setQueryWeather={ setQueryWeather } />
             </Col>
             <Col xs={12} sm={6}>
                 { weatherElement }
