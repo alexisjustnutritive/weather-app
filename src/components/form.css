@@ -1,0 +1,15 @@
+input[type="submit"], input[type="submit"]:active, input[type="submit"]:visited {
+    background: #E13700 !important;
+    border: 1px solid #E13700 !important;
+}
+
+input[type="submit"]:hover {
+    background: #ed5625;
+    border: 1px solid #ed5625;
+}
+
+input[type="submit"]:disabled {
+    background: gray !important;
+    border: 1px solid gray !important;
+}
+

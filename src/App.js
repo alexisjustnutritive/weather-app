@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Header from './components/Header';
 import Error from './components/Error'
 import { Container, Row, Col } from 'react-bootstrap';
 import Form from './components/Form';
 import Weather from './components/Weather';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -13,7 +14,7 @@ function App() {
     useEffect( () => {
         if ( Object.entries( queryWeather ).length > 0 ) {
             const getWeatherData = async () => {
-                let apiUrl =  `https://api.openweathermap.org/data/2.5/weather?q=${ queryWeather.city },${ queryWeather.country }&appid=447a0a328f23d03a2f0f5df3918cf3a0&units=metric`;
+                let apiUrl =  `https://api.openweathermap.org/data/2.5/weather?q=${ queryWeather.city },${ queryWeather.country }&appid=447a0a328f23d03a2f0f5df3918cf3a0&units=imperial`;
                 let res = await fetch( apiUrl );
                 let data = await res.json();
                 setWeather( data );
@@ -26,15 +27,17 @@ function App() {
     useEffect(() => {
         console.log( weather );
         if ( Object.entries( weather ).length > 0 ) {
-            document.body.classList.forEach( classL => {
-                document.body.classList.remove( classL );
+            let weatherImg = document.querySelector( '#weather-img-container' );
+            weatherImg.classList.forEach( classL => {
+                if ( classL !== 'weather-img' && classL !== 'shadow' ) {
+                    weatherImg.classList.remove( classL );
+                }
             } );
             
             console.log( weather );
             let classList = weather.weather[0].main.toLowerCase();
             classList = classList.replace(/\s/g,'');
-            document.querySelector( '.container-page' ).classList.add( classList );
-            // document.body.classList.add( classList );
+            weatherImg.classList.add( classList );
         }
     }, [ weather ]);
 
@@ -48,19 +51,20 @@ function App() {
     }     
     
   return (
-    <Container className="bg-secondary container-page">
-        <div className="header-container">
-            <Header title={ 'Weather app' } />
-        </div>
-        <Row className="p-4">
-            <Col xs={12} sm={6}>
-                <Form setQueryWeather={ setQueryWeather } />
-            </Col>
-            <Col xs={12} sm={6}>
-                { weatherElement }
-            </Col>
-        </Row>
-    </Container>
+    <Fragment>
+        <Container className="bg-secondary d-flex flex-column align-items-center p-0" fluid={ true }>
+            <Header title={ 'Weather App' } />
+            <div className="app-body bg-white d-flex align-items-center justify-content-center flex-column">
+                <div className="my-4">
+                    <Form setQueryWeather={ setQueryWeather } />
+                </div>
+                <div className="my-4">
+                    { weatherElement }
+                </div>
+            </div>
+            <Footer />
+        </Container>
+    </Fragment>
   );
 }
 

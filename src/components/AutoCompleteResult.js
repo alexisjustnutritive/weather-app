@@ -8,7 +8,6 @@ const AutoCompleteResult = ( { cities, setSelectedCity } ) => {
             city: e.target.dataset.city,
             country: e.target.dataset.country
         } );
-        
     }
 
     return (

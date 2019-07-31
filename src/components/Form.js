@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import AutoCompleteResult from './AutoCompleteResult';
 import citiesJson from '../../node_modules/cities.json/cities.json';
+import './form.css';
 
 const Form = ( { setQueryWeather } ) => {
     // states
     const [ selectedCity, setSelectedCity ] = useState( {} );
+    const [ typevalue, setTypevalue ] = useState( '' );
     const [ inputValue, setInputValue ] = useState( '' );
     const [ cities, setCities ] = useState( [] );
     const [disable, setDisable] = useState( true );
@@ -22,6 +24,7 @@ const Form = ( { setQueryWeather } ) => {
     // functions
     const onChange = e => {
         let value = e.target.value;
+        setTypevalue( value );
         setInputValue( value );
         setDisable( true );
 
@@ -43,22 +46,22 @@ const Form = ( { setQueryWeather } ) => {
     }
 
     return (
-        <form onSubmit={ onSubmit } className="text-white d-flex justify-content-start align-items-end">
+        <form onSubmit={ onSubmit } className="text-white d-flex justify-content-center align-items-end">
             <div style={{ position: 'relative' }}>
-                <label htmlFor="city-input">Type to search...</label>
                 <input 
                     type="text" 
-                    className="form-control" 
+                    className="form-control shadow" 
                     id="city-input" 
-                    placeholder="enter the city name..."                    
+                    placeholder="type the city name..."                    
                     name="city"
                     autoComplete="off"
                     value={ inputValue }
                     onChange={ onChange }
                 />
-                <AutoCompleteResult cities={ cities } setSelectedCity={ setSelectedCity } />
+                { typevalue.length >= 3 ? <AutoCompleteResult cities={ cities } setSelectedCity={ setSelectedCity } /> : null }
+                
             </div>
-            <input type="submit" value="Search" className="btn btn-info mx-2" disabled={ disable } />
+            <input type="submit" value="Search" className="btn btn-info ml-2 shadow" disabled={ disable } />
 
         </form>
     )
