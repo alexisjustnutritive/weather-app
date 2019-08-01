@@ -24,7 +24,6 @@ function App() {
     }, [ queryWeather ] );
 
     useEffect(() => {
-        console.log( weather );
         if ( Object.entries( weather ).length > 0 ) {
             if ( weather.cod !== '404' ) {
                 let weatherImg = document.querySelector( '#weather-img-container' );
@@ -33,8 +32,6 @@ function App() {
                         weatherImg.classList.remove( classL );
                     }
                 } );
-                
-                console.log( weather );
                 let classList = weather.weather[0].main.toLowerCase();
                 classList = classList.replace(/\s/g,'');
                 weatherImg.classList.add( classList );
