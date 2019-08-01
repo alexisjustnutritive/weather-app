@@ -37,6 +37,7 @@ const Form = ( { setQueryWeather } ) => {
             setCities( citiesSearchResult );
         } else {
             setCities( [] );
+            setSelectedCity( {} );
         }
     }
 
@@ -46,7 +47,9 @@ const Form = ( { setQueryWeather } ) => {
     }
 
     return (
-        <form onSubmit={ onSubmit } className="text-white d-flex justify-content-center align-items-end">
+        <form onSubmit={ onSubmit }>
+            { disable ? <p style={{ fontSize: '0.8rem' }} className="text-danger mb-1">*type at least 3 characters and select from list</p> : null }
+            <div className="form-container d-flex justify-content-center align-items-end">
             <div style={{ position: 'relative' }}>
                 <input 
                     type="text" 
@@ -59,10 +62,9 @@ const Form = ( { setQueryWeather } ) => {
                     onChange={ onChange }
                 />
                 { typevalue.length >= 3 ? <AutoCompleteResult cities={ cities } setSelectedCity={ setSelectedCity } /> : null }
-                
             </div>
-            <input type="submit" value="Search" className="btn btn-info ml-2 shadow" disabled={ disable } />
-
+                <input type="submit" value="Search" className="btn btn-info ml-2 shadow text-white" disabled={ disable } />
+            </div>
         </form>
     )
 }

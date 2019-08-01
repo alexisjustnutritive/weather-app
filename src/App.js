@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import Header from './components/Header';
 import Error from './components/Error'
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Form from './components/Form';
 import Weather from './components/Weather';
 import Footer from './components/Footer';
@@ -18,8 +18,7 @@ function App() {
                 let res = await fetch( apiUrl );
                 let data = await res.json();
                 setWeather( data );
-            }
-
+            };
             getWeatherData();
         }
     }, [ queryWeather ] );
