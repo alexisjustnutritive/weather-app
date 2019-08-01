@@ -27,17 +27,19 @@ function App() {
     useEffect(() => {
         console.log( weather );
         if ( Object.entries( weather ).length > 0 ) {
-            let weatherImg = document.querySelector( '#weather-img-container' );
-            weatherImg.classList.forEach( classL => {
-                if ( classL !== 'weather-img' && classL !== 'shadow' ) {
-                    weatherImg.classList.remove( classL );
-                }
-            } );
-            
-            console.log( weather );
-            let classList = weather.weather[0].main.toLowerCase();
-            classList = classList.replace(/\s/g,'');
-            weatherImg.classList.add( classList );
+            if ( weather.cod !== '404' ) {
+                let weatherImg = document.querySelector( '#weather-img-container' );
+                weatherImg.classList.forEach( classL => {
+                    if ( classL !== 'weather-img' && classL !== 'shadow' ) {
+                        weatherImg.classList.remove( classL );
+                    }
+                } );
+                
+                console.log( weather );
+                let classList = weather.weather[0].main.toLowerCase();
+                classList = classList.replace(/\s/g,'');
+                weatherImg.classList.add( classList );
+            }
         }
     }, [ weather ]);
 
