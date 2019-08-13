@@ -1,0 +1,55 @@
+main {
+    max-width: 500px;
+    margin: 1rem auto;
+    background: white;
+}
+
+.weather-img {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, 50%);
+    border: 1px solid gainsboro;
+    border-radius: 4px;
+
+    background: white;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    opacity: 0;
+    transition: 0.5s ease-in-out all;
+}
+
+.clear {
+    background-image: url( './clouds-imgs/clear-sky.jpg' ) !important;
+    opacity: 1 !important;
+}
+
+.thunderstorm {
+    background-image: url( './clouds-imgs/thunderstorm.jpg' ) !important;
+    opacity: 1 !important;
+}
+
+.clouds {
+    background-image: url( './clouds-imgs/few-clouds.jpg' ) !important;
+    opacity: 1 !important;
+}
+
+.rain {
+    background-image: url( './clouds-imgs/rain.jpg' ) !important;
+    opacity: 1 !important;
+}
+
+.mist, .haze {
+    background-image: url( './clouds-imgs/mist.jpg' ) !important;
+    opacity: 1 !important;
+}
+
+.snow {
+    background-image: url( './clouds-imgs/snow.jpg' ) !important;
+    opacity: 1 !important;
+}

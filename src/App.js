@@ -1,10 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import Header from './components/Header';
 import Error from './components/Error'
-import { Container } from 'react-bootstrap';
 import Form from './components/Form';
 import Weather from './components/Weather';
 import Footer from './components/Footer';
+
+import './App.css';
 
 function App() {
 
@@ -50,9 +51,9 @@ function App() {
     
   return (
     <Fragment>
-        <Container className="bg-secondary d-flex flex-column align-items-center p-0" fluid={ true }>
+        <main className="d-flex flex-column align-items-center p-0">
             <Header title={ 'Weather App' } />
-            <div className="app-body bg-white d-flex align-items-center justify-content-center flex-column">
+            <div className="d-flex align-items-center justify-content-start flex-column pt-5">
                 <div className="my-4">
                     <Form setQueryWeather={ setQueryWeather } />
                 </div>
@@ -61,7 +62,7 @@ function App() {
                 </div>
             </div>
             <Footer />
-        </Container>
+        </main>
     </Fragment>
   );
 }
